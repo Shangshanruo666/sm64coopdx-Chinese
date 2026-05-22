@@ -7,16 +7,8 @@ ALIGNED8 const u8 texture_font_emoji[] = {
 #include "textures/custom_font/custom_font_emoji.rgba32.inc.c"
 };
 
-ALIGNED8 const u8 texture_font_emoji_aliased[] = {
-#include "textures/custom_font/custom_font_emoji_aliased.rgba32.inc.c"
-};
-
 ALIGNED8 const u8 texture_font_cn[] = {
 #include "textures/custom_font/custom_font_cn.rgba32.inc.c"
-};
-
-ALIGNED8 const u8 texture_font_cn_aliased[] = {
-#include "textures/custom_font/custom_font_cn_aliased.rgba32.inc.c"
 };
 
 ALIGNED8 const u8 texture_font_normal[] = {

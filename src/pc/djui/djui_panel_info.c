@@ -10,13 +10,11 @@ void djui_panel_info_create(struct DjuiBase *caller) {
     struct DjuiBase *body = djui_three_panel_get_body(panel);
     {
         snprintf(sInfo, 512, "\
-sm64coopdx is an online multiplayer project for the Super Mario 64 PC port, started by the Coop Deluxe Team.\n\
-Its purpose is to actively maintain and improve, but also continue sm64ex-coop, created by djoslin0.\n\
-More features, customization, and power to the Lua API allow modders and players to enjoy Super Mario 64 more than ever!");
+感谢游玩蘑菇云译社的汉化版本！更新&聊天加QQ群聊981281124\n(资源只允许在官方群聊下载，如果你是通过别的渠道下载的，请加入群聊向我们申诉)\n特别鸣谢：梅塔的长名字、小花jac\nob、xXram2dieXx、狗哥又玩又爱玩、\n小扬awa、超级屑的屑蓝猫、一只\n普通的刺猬、216、54wxw、xiao-Link、\n雪狼SnowWolf以及所有Mod汉化者\n当前汉化版本:1.0 (公测版)");
 
         struct DjuiText* text = djui_text_create(body, sInfo);
         djui_base_set_location(&text->base, 0, 0);
-        djui_base_set_size(&text->base, (DJUI_DEFAULT_PANEL_WIDTH * (configDjuiThemeCenter ? DJUI_THEME_CENTERED_WIDTH : 1)) - 64, 300);
+        djui_base_set_size(&text->base, (DJUI_DEFAULT_PANEL_WIDTH * (configDjuiThemeCenter ? DJUI_THEME_CENTERED_WIDTH : 1)) - 64, 400);
         djui_base_set_color(&text->base, 220, 220, 220, 255);
         djui_text_set_drop_shadow(text, 64, 64, 64, 100);
         djui_text_set_alignment(text, DJUI_HALIGN_CENTER, DJUI_VALIGN_CENTER);

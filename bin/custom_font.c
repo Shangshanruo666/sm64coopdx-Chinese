@@ -3,12 +3,20 @@
 #include "game/ingame_menu.h"
 #include "make_const_nonconst.h"
 
-ALIGNED8 const u8 texture_font_jp[] = {
-#include "textures/custom_font/custom_font_jp.rgba32.inc.c"
+ALIGNED8 const u8 texture_font_emoji[] = {
+#include "textures/custom_font/custom_font_emoji.rgba32.inc.c"
 };
 
-ALIGNED8 const u8 texture_font_jp_aliased[] = {
-#include "textures/custom_font/custom_font_jp_aliased.rgba32.inc.c"
+ALIGNED8 const u8 texture_font_emoji_aliased[] = {
+#include "textures/custom_font/custom_font_emoji_aliased.rgba32.inc.c"
+};
+
+ALIGNED8 const u8 texture_font_cn[] = {
+#include "textures/custom_font/custom_font_cn.rgba32.inc.c"
+};
+
+ALIGNED8 const u8 texture_font_cn_aliased[] = {
+#include "textures/custom_font/custom_font_cn_aliased.rgba32.inc.c"
 };
 
 ALIGNED8 const u8 texture_font_normal[] = {
@@ -67,7 +75,7 @@ const f32 font_aliased_widths[] = {
 /*        0        1        2        3        4        5        6        7        8        9        */
          14,      12,      13,      14,      14,      14,      14,      13,      14,      14,
 /*        :        ;        <        =        >        ?        @         */
-          8,       8,      10,      12,      10,      11,      18,
+          6,       8,      10,      12,      10,      11,      18,
 /*        A        B        C        D        E        F        G        H        I        J        K        L        M        N        O        P        Q        R        S        T        U        V        W        X        Y        Z        */
          12,      12,      12,      12,      11,      10,      12,      12,       9,      12,      12,      10,      16,      16,      12,      11,      12,      12,      12,      10,      12,      10,      16,      14,      12,      12,
 /*        [        \        ]        ^        _        `        */
@@ -75,7 +83,7 @@ const f32 font_aliased_widths[] = {
 /*        a        b        c        d        e        f        g        h        i        j        k        l        m        n        o        p        q        r        s        t        u        v        w        x        y        z        */
          10,      10,      10,      10,       9,       8,      12,      10,       7,       9,      10,       4,      13,      10,       9,       9,      10,       9,      10,       9,      10,       9,      14,      12,      10,      10,
 /*        {        |        }        ~      DEL        */
-         10,       8,      10,      16,      16,
+         10,       8,      10,      16,      10,
 };
 
 //////////////////////////////////////////////////////////

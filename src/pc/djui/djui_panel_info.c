@@ -10,7 +10,7 @@ void djui_panel_info_create(struct DjuiBase *caller) {
     struct DjuiBase *body = djui_three_panel_get_body(panel);
     {
         snprintf(sInfo, 512, "\
-感谢游玩蘑菇云译社的汉化版本！更新&聊天加QQ群聊981281124\n(资源只允许在官方群聊下载，如果你是通过别的渠道下载的，请加入群聊向我们申诉)\n特别鸣谢：梅塔的长名字、小花jacob、\nSGF3、xXram2dieXx、狗哥又玩又爱玩、小扬awa、\n超级屑的屑蓝猫、一只普通的刺猬、\n216、54wxw、xiao-Link、\n雪狼SnowWolf、脚滑的冰块以及所有Mod汉化者\n当前汉化版本:1.0");
+感谢游玩蘑菇云译社的汉化版本！更新&聊天加QQ群聊981281124\n(资源只允许在官方群聊下载，如果你是通过别的渠道下载的，请加入群聊向我们申诉)\n特别鸣谢：梅塔的长名字、小花jacob、SGF3、xXram2dieXx、狗哥又玩又爱玩、小扬awa、超级屑的屑蓝猫、一只普通的刺猬、Toad114514、216、54wxw、xiao-Link、雪狼SnowWolf、脚滑的冰块以及所有Mod汉化者\n当前汉化版本:1.0");
 
         struct DjuiText* text = djui_text_create(body, sInfo);
         djui_base_set_location(&text->base, 0, 0);

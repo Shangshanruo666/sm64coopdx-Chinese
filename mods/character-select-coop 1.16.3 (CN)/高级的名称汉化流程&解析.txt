@@ -1,0 +1,71 @@
+自 v1.16.3 CN-rc3 开始，模组可支持汉化左边菜单栏的名称内容，并同时向下兼容先前 Namefix 支持的模组
+
+名称的汉化方案：
+   1. 全局搜索函数 character_add
+  2. 根据下方新版函数的参数进行修改
+  character_add(name, description, credit, color, modelInfo, baseChar, lifeIcon, camScale, showName)
+   - name: 角色id名字
+   - description: 描述
+   - credit: 模型对应制作者
+   - color: 角色颜色
+   - modelInfo: 模型信息
+   - baseChar: 角色支点/信息基于某角色，一般情况下为 CT_MARIO
+   - lifeIcon: 生命图标
+   - camScale: 摄像头缩放，默认为 nil
+   - showName: 实际展示名字（如果此项存在，则使用该名字显示在菜单上）
+   
+  汉化只需要修改 description 项和 showName 即可
+  
+  一般情况下，如果cs角色模组是在官方的cs角色模组模板中制作的，那么会缺少最后两项，填上即可，例如：
+      - _G.charSelect.character_add("OG Baldi", {"The og model, now no longer desaturated!"}, "CT Himself, Mystman12", {r = 0, g = 247, b = 0}, E_MODEL_BALD, CT_MARIO, TEX_BALD)
+
+  汉化后改成
+      - _G.charSelect.character_add("OG Baldi", {"The og model, now no longer desaturated!"}, "CT Himself, Mystman12", {r = 0, g = 247, b = 0}, E_MODEL_BALD, CT_MARIO, TEX_BALD, nil, "OG 巴迪")
+  
+  最后添加的两项，第一项默认使用 nil，第二项则为实际展示名字，也就是汉化名字。
+  
+  注意：如果直接函数参数后面加汉化的名字，则汉化文字全部不生效，因为这样Lua会将其汉化文字文字传参到 camScale 函数，所以必须先定义好 camScale 为 nil。
+  （主要是为了一些已经定义好 camScale 的未汉化模组做向下兼容支持）
+
+  分组 Alts：
+     跟上面差不多的做法，但是函数变成了 character_add_costume。
+
+新版的结构：
+    {
+        saveName = type(name) == TYPE_STRING and string_space_to_underscore(name.."_"..credit) or "Untitled",
+        nickname = type(name) == TYPE_STRING and name or "Untitled",
+        currAlt = 1,
+        hasMoveset = false,
+        locked = LOCKED_NEVER,
+        category = "All",
+        ogNum = charNum,
+        playtime = 0,
+        autoDialog = true,
+        replaceModels = {},
+        replaceTextures = {},
+        showName = "", # 左边菜单的通用名称即下面 showName
+        [1] = {
+            name = name,
+            description = type(description) == TYPE_STRING and description or "No description has been provided",
+            credit = credit,
+            color = type(color) == TYPE_TABLE and color or {r = 255, g = 255, b = 255},
+            model = addedModel,
+            ogModel = addedModel,
+            baseChar = baseChar and baseChar or CT_MARIO,
+            lifeIcon = (type(lifeIcon) == TYPE_TABLE or type(lifeIcon) == TYPE_TEX_INFO or type(lifeIcon) == TYPE_STRING) and lifeIcon or "?",
+            starIcon = gTextures.star,
+            camScale = type(camScale) == TYPE_INTEGER and camScale or 1,
+            healthMeter = nil,
+            showName = "", # 小项的内容，即 showNameAlt
+        },
+    }
+
+
+左边菜单列表视图的 GUI ：
+   
+   [showName]
+   [FM] [游玩时长占比]   [showNameAlt]
+
+showName 的内容可通过 character_edit_showName 修改
+showNameAlt 的内容可通过 character_edit_cotsume_showName 修改
+大项如果没有 showName 选项会自动选定第一项 Alt 内 showName 的内容

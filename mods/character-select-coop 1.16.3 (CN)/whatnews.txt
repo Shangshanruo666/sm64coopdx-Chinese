@@ -1,0 +1,95 @@
+Character Select 汉化版更新日志 
+来自 Github 仓库 Releases 更新、Deepseek 翻译、toadXtech64 润色和排版
+重量级/比较实用的更新会以 * 号开头（仅个人观点）
+包括本版本Namefix的更新
+
+v1.16.3 CN-rc3
+ - 合并 Namefix 更新，现在不仅可以对名称进行高级汉化，还可向前兼容 v1.15.1 时代的 Namefix 兼容模组
+ - 添加自带 Coopdx 人物的名称汉化，对照神游官方中文名
+ - 添加 character_edit_costume_showName 用于为某一角色内的“组”添加汉化内容
+ - 添加 version_get_cn 函数获取当前汉化版本
+ - 添加 _G.charSelecrCNExists 函数，用于验证版本是否为汉化版
+ - 为 character_add, character_add_costume, character_edit 和 character_edit_costume 添加 showName 参数
+ - 更多的开发者调试信息汉化
+ - 部分汉化错误纠正
+
+v1.16.3 CN-rc2
+ - 添加 原版自带涂鸦和 Logo 的汉化版本 (不正常的noise)
+ - 添加 默认涂鸦样式的汉化版本（虽然用了ai，后期版本如果有替代品会替换掉） (SLG5)
+ - 汉化错误纠正
+
+v1.16.3 CN-rc1
+ - 旧版汉化移植，目前 Namefix 版本没有进行同步，旧版兼容 Namefix 模组不能正常在该版本显示中文名
+
+（上游 v1.16 ~ v1.16.3 之内的更新日志待续）
+
+v1.15.1 - Namefix V2.3
+因为各位都不喜欢 1.4 后被爆改的新触控以及原版cs1.16要求dx版本1.4以上，所以本版本底层的cs将不更新到 1.16
+新增函数 character_edit_showName(charNum, charAlt, showName)
+ - charNum integer 角色列表中的序号
+ - charAlt integer 某一角色的分组序号 (默认为1)
+ - showName string 其对应所要设置的 showName 字段
+
+v1.15.1 - Namefix V2
+修复了部分兼容cs模组出现无法找到 showName 的bug
+（例如 Triple Bake & SMW World）
+
+v1.15.1 - Namefix V1
+新功能：
+ - 初步兼容其他语言的名字显示 (Toad114514)
+
+v1.15.1
+新功能：
+ - 开发者日志：帮助未来的开发工作
+ - character_is_vanilla 函数（检测玩家使用角色是否为原版 Coopdx 角色）
+ - 为 character_set_current_number 函数添加了可选的第二个参数，用于指定服装 (wereyoshi)
+
+变更：
+ * 使名称标签能够渲染玩家对应的自定义生命值计量条 (xLuigiGamerx)
+ - 增加了对生命值计量条纹理的宽度/高度是否为 2 的幂次方的检查
+ 
+修bug：
+ - 因增加对原版游戏 HUD 标志的支持而导致的 HUD 渲染错误 (xLuigiGamerx)
+ - 内部函数 force_set_character 未为默认角色设置语音的问题 (wereyoshi)
+ - 当其他玩家在 CS 菜单中时，菜单动画会卡死的问题
+ 
+*** 给开发者：
+给目前仍在使用下方方案检测玩家是否使用原版 Coopdx 角色的开发者们一个注意事项：
+  charSelect.character_get_current_number() == 1
+请使用下方新引入的函数进行检测：
+  charSelect.character_is_vanilla()
+开发者计划在 v1.16 版本中将原版 Coopdx 角色拆分到独立的角色槽位，此函数在此次变更前后均能正常使用，为确保兼容性建议开发者们火速修改。
+
+======================
+v1.15
+新功能：
+ - 限制动作集：可允许主机（房主）控制所有玩家的自定义动作集可用性
+ - 新增函数 are_palettes_restricted 和 are_movesets_restricted (xLuigiGamerx) (检测调色板、动作集是否被限制)
+
+调整：
+ - restrict_movesets 和 restrict_palettes 函数现在仅主机（房主）生效
+ * 普通游戏模式不再默认使用 coopdx 设置的角色配色（你喜欢的角色切换选择前终于第一眼不会被那神秘配色给毁力）
+   - 但具有自定义配色功能的游戏模式仍可使用 restrict_palettes 函数
+ - 角色菜单动画不再锁定在第一帧 (wibblus)
+ * 增加了加载无效角色替代造型时的安全措施
+ - 大幅更新了 API 文档，详情转至 https://github.com/Squishy6094/character-select-coop/wiki (Squishy & xLuigiGamerx)
+ - 角色模型模板被分离到独立代码库中
+
+依旧修 Bug：
+ * 进入菜单后有概率出现 FOV 视角错误，马里奥现在终于"睡醒"了
+ - 修复布尔锁条件角色意外显示在菜单中的问题
+ - 防止生成帽类对象时的脚本错误
+ - 技能组钩子函数在非 nil 时才返回的问题
+ - 描述文本测量不准确的问题
+ - 当角色没有配色时，character_get_current_palette 函数会抛出错误的问题
+ - character_set_number 函数不更新角色选择界面 (rPhase)
+    - 添加了对应标准化函数以防止未来出现类似情况
+ - 当菜单打开时若菜单功能被限制，菜单无法关闭的问题
+ - 在提前收集 100 金币星时，关卡选择界面中玩家图标位置偏移
+ - HUD 标志替换功能未按预期工作 (xLuigiGamerx)
+ 
+v1.14.1 汉化
+ - 移植了更早期的汉化字符串 (Shangshanruo)
+
+v1.12.1（应该是）
+ - 完成基础汉化工作 (xiao-Link)

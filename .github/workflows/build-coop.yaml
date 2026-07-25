@@ -11,6 +11,7 @@ jobs:
     build-arm64-linux:
         runs-on: ubuntu-24.04-arm
         name: 哦这个arm64我等下在termux chroot里面测试
+        if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         
         steps:
           - name: Checkout Repository

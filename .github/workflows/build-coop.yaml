@@ -3,7 +3,7 @@ name: Build coop
 on:
     workflow_dispatch:
     push:
-        branches: [ dev ]
+        branches: [ 1.5.1-cn ]
     pull_request:
         branches: [ dev ]
 

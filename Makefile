@@ -52,7 +52,8 @@ DISCORD_SDK ?= 1
 # Enable CoopNet SDK (used for CoopNet server hosting)
 COOPNET ?= 1
 # Enable Updater (used for automatic updates)
-UPDATER ?= 1
+# 默认禁用自动升级
+UPDATER ?= 0
 # Enable docker build workarounds
 DOCKERBUILD ?= 0
 # Sets your optimization level for building.

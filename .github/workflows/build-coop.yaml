@@ -8,6 +8,30 @@ on:
         branches: [ dev ]
 
 jobs:
+    build-arm64-linux:
+    runs-on: ubuntu-24.04-arm
+    if: ${{ inputs.arm64 == true }}
+    name: 哦这个arm64我等下在termux chroot里面测试
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Native Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential git python3 libsdl2-dev libglew-dev libcurl4-openssl-dev zlib1g-dev bsdmainutils libx11-dev
+
+      - name: Compile Game Natively
+        run: |
+          make DISCORDRPC=0 -j$(nproc)
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sm64coopdx_arm64_linux
+          path: build/us_pc/
+    
     build-linux:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: ubuntu-22.04

@@ -19,7 +19,7 @@ static void djui_font_normal_render_char(const char* c) {
         u32 tx = index % 64;
         u32 ty = index / 64;
         extern ALIGNED8 const Texture texture_font_emoji[];
-        djui_gfx_render_texture_tile_font(texture_font_emoji, 2048, 256, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32);
+        djui_gfx_render_texture_tile_font(texture_font_emoji, 2048, 256, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32); // 1.5.1 开始使用的新字符渲染方案
     } else if (index & 0x010000) {
         index &= ~0x010000;
         u32 tx = index % 64;
@@ -83,16 +83,6 @@ static void djui_font_title_render_char(const char* c) {
         extern ALIGNED8 const Texture texture_font_title[];
         djui_gfx_render_texture_tile_font(texture_font_title, 1024, 512, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 64, ty * 64, 64, 64);
     }
-    
-//<<<<<<< HEAD
-//======= 好像是上游的字体优化
-
-    u32 tx = index % 16;
-    u32 ty = index / 16;
-
-    extern ALIGNED8 const Texture texture_font_title[];
-    djui_gfx_render_texture_tile_font(texture_font_title, 1024, 512, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 64, ty * 64, 64, 64);
-//>>>>>>> v1.5.1
 }
 
 static f32 djui_font_title_char_width(const char* text) {
@@ -269,7 +259,6 @@ static void djui_font_custom_hud_render_char(const char* c) {
         u32 ty = index / 16;
         extern ALIGNED8 const Texture texture_font_hud[];
         djui_gfx_render_texture_tile_font(texture_font_hud, 512, 512, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32);
-        //djui_gfx_render_texture_tile_font(texture_font_hud, 512, 512, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32); // 这个新的 font 渲染函数。如果你觉得行就试试
     }
 }
 
@@ -296,7 +285,6 @@ static void djui_font_custom_hud_recolor_render_char(const char* c) {
         u32 tx = index % 16;
         u32 ty = index / 16;
         extern ALIGNED8 const Texture texture_font_hud_recolor[];
-// <<<<<<< HEAD
         djui_gfx_render_texture_tile_font(texture_font_hud_recolor, 512, 512, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32);
     }
 }
@@ -323,24 +311,6 @@ static const struct DjuiFont sDjuiFontCustomHud = {
     .lineHeight           = 1.0f,
     .xOffset              = 1.0f,
     .yOffset              = 0.0f,
-// =======
-        // djui_gfx_render_texture_tile_font(texture_font_hud_recolor, 512, 512, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32);
-    // }
-// }
-
-// static f32 djui_font_custom_hud_char_width(const char* c) {
-    // if (*c == ' ') { return 0.3750f; }
-    // extern const f32 font_hud_widths[];
-    // return djui_unicode_get_sprite_width(c, font_hud_widths, 32.0f);
-// }
-
-// static const struct DjuiFont sDjuiFontCustomHud = {
-    // .charWidth            = 1.0f,
-    // .charHeight           = 0.7f,
-    // .lineHeight           = 0.7f,
-    // .xOffset              = -0.25f,
-    // .yOffset              = -10.25f,
-// >>>>>>> v1.5.1
     .defaultFontScale     = 32.0f,
     .textBeginDisplayList = NULL,
     .render_begin         = djui_gfx_render_texture_tile_font_begin,

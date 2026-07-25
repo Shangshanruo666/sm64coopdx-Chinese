@@ -266,12 +266,6 @@ void djui_unicode_init(void) {
     size_t cnCount = sizeof(sSmCodeGlyphs_CN) / sizeof(sSmCodeGlyphs_CN[0]);
     for (size_t i = 0; i < cnCount; i++) {
         struct SmCodeGlyph* glyph = &sSmCodeGlyphs_CN[i];
-
-    //add japanese glyphs
-    // size_t jpCount = sizeof(sSmCodeGlyphs_JP) / sizeof(sSmCodeGlyphs_JP[0]);
-    // for (size_t i = 0; i < jpCount; i++) {
-        // struct SmCodeGlyph* glyph = &sSmCodeGlyphs_JP[i];
-// >>>>>>> v1.5.1
         glyph->spriteIndex = 0x010000 + i;
         u64 key = convert_unicode_char_to_u64(glyph->unicode);
         s32 bytes = count_bytes_for_char(glyph->unicode);

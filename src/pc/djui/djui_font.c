@@ -301,7 +301,7 @@ static void djui_font_custom_hud_recolor_render_char(const char* c) {
     }
 }
 
-static f32 djui_font_custom_hud_char_width(char* text) {
+static f32 djui_font_custom_hud_char_width(const char* text) {
     char c = *text;
     if (c == ' ') { return 0.3750f; }
 

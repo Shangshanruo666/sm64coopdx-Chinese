@@ -208,7 +208,7 @@ struct SmCodeGlyph sSmCodeDuplicateGlyphs[] = {
 
 static void* sCharMap = NULL;
 
-static s32 count_bytes_for_char(char* text) {
+static s32 count_bytes_for_char(const char* text) {
     s32 bytes = 0;
     u8 mask = (1 << 7);
     while (*text & mask) {
@@ -218,7 +218,7 @@ static s32 count_bytes_for_char(char* text) {
     return bytes ? bytes : 1;
 }
 
-static u64 convert_unicode_char_to_u64(char* text) {
+static u64 convert_unicode_char_to_u64(const char* text) {
     s32 bytes = count_bytes_for_char(text);
     u64 value = (u8)*text;
 
@@ -266,6 +266,12 @@ void djui_unicode_init(void) {
     size_t cnCount = sizeof(sSmCodeGlyphs_CN) / sizeof(sSmCodeGlyphs_CN[0]);
     for (size_t i = 0; i < cnCount; i++) {
         struct SmCodeGlyph* glyph = &sSmCodeGlyphs_CN[i];
+
+    //add japanese glyphs
+    // size_t jpCount = sizeof(sSmCodeGlyphs_JP) / sizeof(sSmCodeGlyphs_JP[0]);
+    // for (size_t i = 0; i < jpCount; i++) {
+        // struct SmCodeGlyph* glyph = &sSmCodeGlyphs_JP[i];
+// >>>>>>> v1.5.1
         glyph->spriteIndex = 0x010000 + i;
         u64 key = convert_unicode_char_to_u64(glyph->unicode);
         s32 bytes = count_bytes_for_char(glyph->unicode);
@@ -290,7 +296,7 @@ void djui_unicode_init(void) {
     }
 }
 
-u32 djui_unicode_get_sprite_index(char* text) {
+u32 djui_unicode_get_sprite_index(const char* text) {
     // check for ASCI
     if ((u8)*text < 128) {
         // make sure it's in the valid range
@@ -315,7 +321,7 @@ u32 djui_unicode_get_sprite_index(char* text) {
     return (u8)'?' - SPRITE_INDEX_START_CHAR;
 }
 
-f32 djui_unicode_get_sprite_width(char* text, const f32 font_widths[], f32 unicodeScale) {
+f32 djui_unicode_get_sprite_width(const char* text, const f32 font_widths[], f32 unicodeScale) {
     if (!text) { return 0; }
 
     // check for ASCII
@@ -375,7 +381,7 @@ size_t djui_unicode_len(char* text) {
     return len;
 }
 
-bool djui_unicode_valid_char(char* text) {
+bool djui_unicode_valid_char(const char* text) {
     if ((u8)*text < 128) {
         return ((u8)*text >= ' ');
     }
@@ -414,7 +420,7 @@ void djui_unicode_cleanup_end(char* text) {
     }
 }
 
-char djui_unicode_get_base_char(char* text) {
+char djui_unicode_get_base_char(const char* text) {
     if ((u8)*text < ' ') { return '?'; }
     if ((u8)*text < 128) { return *text; }
     if (!sCharMap) { return '?'; }
@@ -423,7 +429,7 @@ char djui_unicode_get_base_char(char* text) {
     return (glyph == NULL) ? '?' : glyph->base;
 }
 
-void djui_unicode_get_char(char* text, char* output) {
+void djui_unicode_get_char(const char* text, char* output) {
     s32 bytes = count_bytes_for_char(text);
     while (bytes-- > 0) {
         *output = *text;

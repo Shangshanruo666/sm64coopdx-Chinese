@@ -8,30 +8,6 @@ on:
         branches: [ dev ]
 
 jobs:
-    build-arm64-linux:
-        runs-on: ubuntu-24.04-arm
-        name: 哦这个arm64我等下在termux chroot里面测试
-        if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
-        
-        steps:
-          - name: Checkout Repository
-            uses: actions/checkout@v4
-    
-          - name: Install Native Dependencies
-            run: |
-              sudo apt-get update
-              sudo apt-get install -y build-essential git python3 libsdl2-dev libglew-dev libcurl4-openssl-dev zlib1g-dev bsdmainutils libx11-dev
-    
-          - name: Compile Game Natively
-            run: |
-              make DISCORDRPC=0 -j$(nproc)
-    
-          - name: Upload Artifacts
-            uses: actions/upload-artifact@v4
-            with:
-              name: sm64coopdx_arm64_linux
-              path: build/us_pc/
-    
     build-linux:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: ubuntu-22.04
@@ -63,6 +39,7 @@ jobs:
               with:
                 name: sm64coopdx-linux
                 path: ./build/us_pc/sm64coopdx_Linux.zip
+                retention-days: 1
 
     build-steamos:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
@@ -95,6 +72,7 @@ jobs:
               with:
                 name: sm64coopdx-steamos
                 path: ./build/us_pc/sm64coopdx_SteamOS.zip
+                retention-days: 1
 
     build-windows:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
@@ -140,6 +118,7 @@ jobs:
               with:
                 name: sm64coopdx-windows
                 path: ./build/us_pc/sm64coopdx_Windows.zip
+                retention-days: 1
 
     build-macos-arm:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
@@ -195,6 +174,7 @@ jobs:
               with:
                 name: sm64coopdx-macos-arm
                 path: ./build/us_pc/sm64coopdx_macOS_ARM.zip
+                retention-days: 1
 
     build-macos-intel:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
@@ -250,3 +230,4 @@ jobs:
               with:
                 name: sm64coopdx-macos-intel
                 path: ./build/us_pc/sm64coopdx_macOS_Intel.zip
+                retention-days: 1

@@ -185,8 +185,13 @@ jobs:
 
             - name: Install dependencies
               run: |
-                brew install make mingw-w64 pkg-config glfw3 coreutils || true
+                brew install --overwrite make sdl2 mingw-w64 pkg-config glew glfw3 coreutils || true
                 brew link --overwrite sdl2 glew glfw3
+                if [ -d "/opt/homebrew/opt/coreutils/libexec/gnubin" ]; then
+                  echo "/opt/homebrew/opt/coreutils/libexec/gnubin" >> $GITHUB_PATH
+                elif [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
+                  echo "/usr/local/opt/coreutils/libexec/gnubin" >> $GITHUB_PATH
+                fi
 
             - name: Compile glew
               run: |

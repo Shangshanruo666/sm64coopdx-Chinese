@@ -13,12 +13,19 @@ static void djui_font_normal_render_char(const char* c) {
 
     u32 index = djui_unicode_get_sprite_index(c);
 
-    if (index & 0x010000) {
+    // 检查是否是 Emoji 字符
+    if (index & 0x020000) {
+        index &= ~0x020000;
+        u32 tx = index % 64;
+        u32 ty = index / 64;
+        extern ALIGNED8 const Texture texture_font_emoji[];
+        djui_gfx_render_texture_tile_font(texture_font_emoji, 2048, 256, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32); // 1.5.1 使用的新版字体渲染函数
+    } else if (index & 0x010000) {
         index &= ~0x010000;
         u32 tx = index % 64;
         u32 ty = index / 64;
-        extern ALIGNED8 const Texture texture_font_jp[];
-        djui_gfx_render_texture_tile_font(texture_font_jp, 512, 1024, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 8, ty * 16, 8, 16);
+        extern ALIGNED8 const Texture texture_font_cn[];
+        djui_gfx_render_texture_tile_font(texture_font_cn, 1024, 2048, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 16, ty * 19, 16, 19);
     } else {
         u32 tx = index % 32;
         u32 ty = index / 32;
@@ -36,7 +43,7 @@ static f32 djui_font_normal_char_width(const char* c) {
 static const struct DjuiFont sDjuiFontNormal = {
     .charWidth            = 0.5f,
     .charHeight           = 1.0f,
-    .lineHeight           = 0.8125f,
+    .lineHeight           = 1.0f,
     .xOffset              = 0.0f,
     .yOffset              = 0.0f,
     .defaultFontScale     = 32.0f,
@@ -56,25 +63,45 @@ static void djui_font_title_render_char(const char* c) {
     if (*c == ' ') { return; }
 
     u32 index = djui_unicode_get_sprite_index(c);
-    if ((u8)*c < '!' || (u8)*c > '~' + 1) {
-        char tmp[2] = { 0 };
-        tmp[0] = djui_unicode_get_base_char(c);
-        index = djui_unicode_get_sprite_index(tmp);
+
+    // 检查是否是 Emoji 字符
+    if (index & 0x020000) {
+        index &= ~0x020000;
+        u32 tx = index % 64;
+        u32 ty = index / 64;
+        extern ALIGNED8 const Texture texture_font_emoji[];
+        djui_gfx_render_texture_tile_font(texture_font_emoji, 2048, 256, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32);
+    } else if (index & 0x010000) {
+        index &= ~0x010000;
+        u32 tx = index % 64;
+        u32 ty = index / 64;
+        extern ALIGNED8 const Texture texture_font_cn[];
+        djui_gfx_render_texture_tile_font(texture_font_cn, 1024, 2048, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 16, ty * 19, 16, 19);
+    } else {
+        u32 tx = index % 16;
+        u32 ty = index / 16;
+        extern ALIGNED8 const Texture texture_font_title[];
+        djui_gfx_render_texture_tile_font(texture_font_title, 1024, 512, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 64, ty * 64, 64, 64);
     }
-
-    u32 tx = index % 16;
-    u32 ty = index / 16;
-
-    extern ALIGNED8 const Texture texture_font_title[];
-    djui_gfx_render_texture_tile_font(texture_font_title, 1024, 512, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 64, ty * 64, 64, 64);
 }
 
 static f32 djui_font_title_char_width(const char* text) {
     char c = *text;
-    if (c == ' ') { return 0.30f; }
+
+    if (c == ' ') { 
+        return 0.30f; 
+    }
+
     c = djui_unicode_get_base_char(text);
     extern const f32 font_title_widths[];
-    return font_title_widths[(u8)c - '!'] * (configExCoopTheme ? 1.0f : 1.1f);
+
+    f32 width = font_title_widths[(u8)c - '!'] * (configExCoopTheme ? 1.0f : 1.1f);
+
+    if (width <= 0.0f) {
+        return 0.9375f;
+    }
+
+    return width;
 }
 
 static const struct DjuiFont sDjuiFontTitle = {
@@ -164,12 +191,19 @@ static void djui_font_aliased_render_char(const char* c) {
 
     u32 index = djui_unicode_get_sprite_index(c);
 
-    if (index & 0x010000) {
+    // 检查是否是 Emoji 字符
+    if (index & 0x020000) {
+        index &= ~0x020000;
+        u32 tx = index % 64;
+        u32 ty = index / 64;
+        extern ALIGNED8 const Texture texture_font_emoji[];
+        djui_gfx_render_texture_tile_font(texture_font_emoji, 2048, 256, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32);
+    } else if (index & 0x010000) {
         index &= ~0x010000;
         u32 tx = index % 64;
         u32 ty = index / 64;
-        extern ALIGNED8 const Texture texture_font_jp_aliased[];
-        djui_gfx_render_texture_tile_font(texture_font_jp_aliased, 1024, 2048, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 16, ty * 32, 16, 32);
+        extern ALIGNED8 const Texture texture_font_cn[];
+        djui_gfx_render_texture_tile_font(texture_font_cn, 1024, 2048, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 16, ty * 19, 16, 19);
     } else {
         u32 tx = index % 32;
         u32 ty = index / 32;
@@ -189,7 +223,7 @@ static const struct DjuiFont sDjuiFontAliased = {
     .charHeight           = 1.0f,
     .xOffset              = 0.0f,
     .yOffset              = 0.0f,
-    .lineHeight           = 0.8125f,
+    .lineHeight           = 1.0f,
     .defaultFontScale     = 32.0f,
     .textBeginDisplayList = NULL,
     .render_begin         = djui_gfx_render_texture_tile_font_begin,
@@ -208,12 +242,19 @@ static void djui_font_custom_hud_render_char(const char* c) {
 
     u32 index = djui_unicode_get_sprite_index(c);
 
-    if (index & 0x010000) {
+    // 检查是否是 Emoji 字符
+    if (index & 0x020000) {
+        index &= ~0x020000;
+        u32 tx = index % 64;
+        u32 ty = index / 64;
+        extern ALIGNED8 const Texture texture_font_emoji[];
+        djui_gfx_render_texture_tile_font(texture_font_emoji, 2048, 256, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32);
+    } else if (index & 0x010000) {
         index &= ~0x010000;
         u32 tx = index % 64;
         u32 ty = index / 64;
-        extern ALIGNED8 const Texture texture_font_jp[];
-        djui_gfx_render_texture_tile_font(texture_font_jp, 512, 1024, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 8, ty * 16, 8, 16);
+        extern ALIGNED8 const Texture texture_font_cn[];
+        djui_gfx_render_texture_tile_font(texture_font_cn, 1024, 2048, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 16, ty * 19, 16, 19);
     } else {
         u32 tx = index % 16;
         u32 ty = index / 16;
@@ -228,12 +269,19 @@ static void djui_font_custom_hud_recolor_render_char(const char* c) {
 
     u32 index = djui_unicode_get_sprite_index(c);
 
-    if (index & 0x010000) {
+    // 检查是否是 Emoji 字符
+    if (index & 0x020000) {
+        index &= ~0x020000;
+        u32 tx = index % 64;
+        u32 ty = index / 64;
+        extern ALIGNED8 const Texture texture_font_emoji[];
+        djui_gfx_render_texture_tile_font(texture_font_emoji, 2048, 256, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32);
+    } else if (index & 0x010000) {
         index &= ~0x010000;
         u32 tx = index % 64;
         u32 ty = index / 64;
-        extern ALIGNED8 const Texture texture_font_jp[];
-        djui_gfx_render_texture_tile_font(texture_font_jp, 512, 1024, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 8, ty * 16, 8, 16);
+        extern ALIGNED8 const Texture texture_font_cn[];
+        djui_gfx_render_texture_tile_font(texture_font_cn, 1024, 2048, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 16, ty * 19, 16, 19);
     } else {
         u32 tx = index % 16;
         u32 ty = index / 16;
@@ -254,6 +302,7 @@ static const struct DjuiFont sDjuiFontCustomHud = {
     .lineHeight           = 0.7f,
     .xOffset              = -0.25f,
     .yOffset              = -10.25f,
+// =====
     .defaultFontScale     = 32.0f,
     .textBeginDisplayList = NULL,
     .render_begin         = djui_gfx_render_texture_tile_font_begin,
@@ -263,11 +312,11 @@ static const struct DjuiFont sDjuiFontCustomHud = {
 };
 
 static const struct DjuiFont sDjuiFontCustomHudRecolor = {
-    .charWidth            = 1.0f,
-    .charHeight           = 0.7f,
-    .lineHeight           = 0.7f,
-    .xOffset              = -0.25f,
-    .yOffset              = -10.25f,
+    .charWidth            = 0.5f,
+    .charHeight           = 1.0f,
+    .lineHeight           = 1.0f,
+    .xOffset              = 1.0f,
+    .yOffset              = 0.0f,
     .defaultFontScale     = 32.0f,
     .textBeginDisplayList = NULL,
     .render_begin         = djui_gfx_render_texture_tile_font_begin,
@@ -285,19 +334,26 @@ static void djui_font_special_render_char(const char* c) {
     if (*c == ' ') { return; }
 
     u32 index = djui_unicode_get_sprite_index(c);
-    if (index & 0x010000) {
+
+    // 检查是否是 Emoji 字符
+    if (index & 0x020000) {
+        index &= ~0x020000;
+        u32 tx = index % 64;
+        u32 ty = index / 64;
+        extern ALIGNED8 const Texture texture_font_emoji[];
+        djui_gfx_render_texture_tile_font(texture_font_emoji, 2048, 256, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 32, ty * 32, 32, 32);
+    } else if (index & 0x010000) {
         index &= ~0x010000;
         u32 tx = index % 64;
         u32 ty = index / 64;
-        extern ALIGNED8 const Texture texture_font_jp[];
-        djui_gfx_render_texture_tile_font(texture_font_jp, 512, 1024, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 8, ty * 16, 8, 16);
+        extern ALIGNED8 const Texture texture_font_cn[];
+        djui_gfx_render_texture_tile_font(texture_font_cn, 1024, 2048, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 16, ty * 19, 16, 19);
     } else {
         u32 tx = index % 32;
         u32 ty = index / 32;
         extern ALIGNED8 const Texture texture_font_special[];
         djui_gfx_render_texture_tile_font(texture_font_special, 256, 128, G_IM_FMT_RGBA, G_IM_SIZ_32b, tx * 8, ty * 16, 8, 16);
     }
-
 }
 
 static f32 djui_font_special_char_width(const char* c) {
@@ -309,7 +365,7 @@ static f32 djui_font_special_char_width(const char* c) {
 static const struct DjuiFont sDjuiFontSpecial = {
     .charWidth            = 0.5f,
     .charHeight           = 1.0f,
-    .lineHeight           = 0.8125f,
+    .lineHeight           = 1.0f,
     .xOffset              = 0.0f,
     .yOffset              = 0.0f,
     .defaultFontScale     = 32.0f,

@@ -6,6 +6,8 @@
 #include "pc/configfile.h"
 #include "pc/lua/utils/smlua_misc_utils.h"
 
+#include "djui_console.h"
+
 #define DJUI_POPUP_LIFETIME 6.0f
 
 struct DjuiPopupList {
@@ -40,7 +42,7 @@ void djui_popup_create(const char* message, int lines) {
     struct DjuiPopup* popup = calloc(1, sizeof(struct DjuiPopup));
     struct DjuiBase* base = &popup->base;
 
-    f32 height = lines * 32 + 32;
+    f32 height = lines * 40 + 32;
     djui_base_init(&gDjuiRoot->base, base, djui_popup_render, djui_popup_destroy);
     djui_base_set_alignment(base, DJUI_HALIGN_RIGHT, DJUI_VALIGN_TOP);
     djui_base_set_location(base, 8, -height);

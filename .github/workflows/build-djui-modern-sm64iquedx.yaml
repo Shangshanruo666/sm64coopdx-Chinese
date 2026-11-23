@@ -16,7 +16,6 @@ jobs:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: ubuntu-22.04
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -60,7 +59,6 @@ jobs:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: ubuntu-22.04
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -73,6 +71,11 @@ jobs:
               run: |
                 curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/djui_modern/${DJUI_MODERN_REF}/install.sh" \
                   | bash -s "${DJUI_MODERN_REF}"
+
+            - name: Install sm64iquedx
+              run: |
+                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/sm64iquedx/${SM64IQUEDX_REF}/install.sh" \
+                  | bash -s "${SM64IQUEDX_REF}" --djui_modern
 
             - name: Build the game
               run: make -j$(nproc) HANDHELD=1
@@ -102,7 +105,6 @@ jobs:
             run:
                 shell: msys2 {0}
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -126,6 +128,11 @@ jobs:
               run: |
                 curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/djui_modern/${DJUI_MODERN_REF}/install.sh" \
                   | bash -s "${DJUI_MODERN_REF}"
+
+            - name: Install sm64iquedx
+              run: |
+                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/sm64iquedx/${SM64IQUEDX_REF}/install.sh" \
+                  | bash -s "${SM64IQUEDX_REF}" --djui_modern
 
             - name: Build the game
               run: make -j$(nproc)
@@ -152,7 +159,6 @@ jobs:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: macos-26
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -182,6 +188,11 @@ jobs:
               run: |
                 curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/djui_modern/${DJUI_MODERN_REF}/install.sh" \
                   | bash -s "${DJUI_MODERN_REF}"
+
+            - name: Install sm64iquedx
+              run: |
+                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/sm64iquedx/${SM64IQUEDX_REF}/install.sh" \
+                  | bash -s "${SM64IQUEDX_REF}" --djui_modern
 
             - name: Build the game
               run: |
@@ -214,7 +225,6 @@ jobs:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: macos-15-intel
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -246,6 +256,11 @@ jobs:
               run: |
                 curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/djui_modern/${DJUI_MODERN_REF}/install.sh" \
                   | bash -s "${DJUI_MODERN_REF}"
+
+            - name: Install sm64iquedx
+              run: |
+                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/sm64iquedx/${SM64IQUEDX_REF}/install.sh" \
+                  | bash -s "${SM64IQUEDX_REF}" --djui_modern
 
             - name: Build the game
               run: |

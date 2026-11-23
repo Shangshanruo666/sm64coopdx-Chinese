@@ -15,7 +15,6 @@ jobs:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: ubuntu-22.04
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -54,7 +53,6 @@ jobs:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: ubuntu-22.04
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -63,10 +61,10 @@ jobs:
                 sudo apt update
                 sudo apt install -y build-essential git python3 libglew-dev libsdl2-dev libz-dev libcurl4-openssl-dev zip curl
 
-            - name: Install djui_modern
+            - name: Install sm64iquedx
               run: |
-                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/djui_modern/${DJUI_MODERN_REF}/install.sh" \
-                  | bash -s "${DJUI_MODERN_REF}"
+                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/sm64iquedx/${SM64IQUEDX_REF}/install.sh" \
+                  | bash -s "${SM64IQUEDX_REF}"
 
             - name: Build the game
               run: make -j$(nproc) HANDHELD=1
@@ -96,7 +94,6 @@ jobs:
             run:
                 shell: msys2 {0}
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -116,10 +113,10 @@ jobs:
                     zip
                     curl
 
-            - name: Install djui_modern
+            - name: Install sm64iquedx
               run: |
-                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/djui_modern/${DJUI_MODERN_REF}/install.sh" \
-                  | bash -s "${DJUI_MODERN_REF}"
+                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/sm64iquedx/${SM64IQUEDX_REF}/install.sh" \
+                  | bash -s "${SM64IQUEDX_REF}"
 
             - name: Build the game
               run: make -j$(nproc)
@@ -146,13 +143,17 @@ jobs:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: macos-26
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
             - name: Install dependencies
               run: |
                 brew install make mingw-w64 pkg-config glfw coreutils
+
+            - name: Install sm64iquedx
+              run: |
+                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/sm64iquedx/${SM64IQUEDX_REF}/install.sh" \
+                  | bash -s "${SM64IQUEDX_REF}"
 
             - name: Compile glew
               run: |
@@ -171,11 +172,6 @@ jobs:
                 ./configure --prefix=/opt/homebrew CC="clang -arch arm64 -mmacosx-version-min=11"
                 make -j$(sysctl -n hw.ncpu)
                 make install
-
-            - name: Install djui_modern
-              run: |
-                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/djui_modern/${DJUI_MODERN_REF}/install.sh" \
-                  | bash -s "${DJUI_MODERN_REF}"
 
             - name: Build the game
               run: |
@@ -208,7 +204,6 @@ jobs:
         if: ${{ (github.event_name != 'push' || contains(github.event.head_commit.message, '[build]')) && github.event.pull_request.draft == false }}
         runs-on: macos-15-intel
         steps:
-
             - name: Checkout repository
               uses: actions/checkout@v4
 
@@ -217,6 +212,11 @@ jobs:
                 brew install make mingw-w64 pkg-config glfw coreutils
                 brew install gcc@9 || true
                 brew postinstall gcc@9 || true
+
+            - name: Install sm64iquedx
+              run: |
+                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/sm64iquedx/${SM64IQUEDX_REF}/install.sh" \
+                  | bash -s "${SM64IQUEDX_REF}"
 
             - name: Compile glew
               run: |
@@ -235,11 +235,6 @@ jobs:
                 ./configure --prefix=/usr/local CC="clang -arch x86_64 -mmacosx-version-min=10.15"
                 make -j$(sysctl -n hw.ncpu)
                 make install
-
-            - name: Install djui_modern
-              run: |
-                curl -LSs "https://raw.githubusercontent.com/Shangshanruo666/djui_modern/${DJUI_MODERN_REF}/install.sh" \
-                  | bash -s "${DJUI_MODERN_REF}"
 
             - name: Build the game
               run: |
